@@ -1,2 +1,2 @@
-# ci-news
-Code Igniter Demo News App
+# ci_demo
+Code Igniter Demo Apps

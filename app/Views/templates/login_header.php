@@ -13,7 +13,8 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-<!-- Login Header - Nav Bar -->
+  <?php $uri = service("uri"); ?>
+  <!-- Login Header - Nav Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <a class="navbar-brand" href="/login">CI4 Login</a>
@@ -22,14 +23,30 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/register">Register</a>
-          </li>
-        </ul>
+        <?php if (session()->get("isLoggedIn")): // User is Logged In ?>
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item<?= ($uri->getSegment(1) == "dashboard" ? " active" : null); ?>">
+              <a class="nav-link" href="/dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item<?= ($uri->getSegment(1) == "profile" ? " active" : null); ?>">
+              <a class="nav-link" href="/profile">Profile</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav my-2 my-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+          </ul>
+        <?php else: // User is NOT Logged In?>
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link<?= ($uri->getSegment(1) == "login" ? " active" : null); ?>" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link<?= ($uri->getSegment(1) == "register" ? " active" : null); ?>" href="/register">Register</a>
+            </li>
+          </ul>
+        <?php endif; ?>
       </div>
     </div>
   </nav>

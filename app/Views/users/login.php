@@ -5,6 +5,12 @@
       <div class="container">
         <h3>Login</h3>
         <hr />
+        <!-- Show Success Message after Successful New User Registration -->
+        <?php if (session()->get("success")): ?>
+          <div class="alert alert-success" role="alert">
+            <?= session()->get("success") ?>
+          </div>
+        <?php endif; ?>
         <form action="/login" method="POST">
           <!-- Email Address -->
           <div class="form-group">
@@ -16,6 +22,14 @@
           <label for="password">Password</label>
             <input class="form-control" type="password" name="password" id="password" value="" />
           </div>
+          <!-- Show any Validation Errors -->
+          <?php if (isset($validation)): ?>
+            <div class="col-12">
+              <div class="alert alert-danger" role="alert">
+                <?= $validation->listErrors(); ?>
+              </div>
+            </div>
+          <?php endif; ?>
           <div class="row">
             <!-- Submit Button -->
             <div class="col-12 col-sm-4">

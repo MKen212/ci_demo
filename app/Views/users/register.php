@@ -5,27 +5,27 @@
       <div class="container">
         <h3>Register</h3>
         <hr />
-        <form action="/register" method="POST">
+        <form action="/register" method="POST" autocomplete="off">
           <div class="row">
             <!-- First Name -->
             <div class="col-12 col-sm-6">
               <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input class="form-control" type="text" name="firstName" id="firstName" value="<?= set_value("firstName") ?>" autocomplete="off" />              
+                <input class="form-control" type="text" name="firstName" id="firstName" value="<?= set_value("firstName") ?>" />              
               </div>
             </div>
             <!-- Last Name -->
             <div class="col-12 col-sm-6">
               <div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input class="form-control" type="text" name="" id="lastName" value="<?= set_value("lastName") ?>" autocomplete="off" />
+                <input class="form-control" type="text" name="lastName" id="lastName" value="<?= set_value("lastName") ?>" />
               </div>
             </div>
             <!-- Email Address -->
-            <div class="col-12 col-sm-6">
+            <div class="col-12">
               <div class="form-group">
                 <label for="email">Email Address</label>
-                <input class="form-control" type="text" name="email" id="email" value="<?= set_value("email") ?>" autocomplete="off" />
+                <input class="form-control" type="text" name="email" id="email" value="<?= set_value("email") ?>" />
               </div>
             </div>
             <!-- Password -->
@@ -42,6 +42,14 @@
                 <input class="form-control" type="password" name="password_confirm" id="password_confirm" value="" />
               </div>
             </div>
+            <!-- Show any Validation Errors -->
+            <?php if (isset($validation)): ?>
+              <div class="col-12">
+                <div class="alert alert-danger" role="alert">
+                  <?= $validation->listErrors(); ?>
+                </div>
+              </div>
+            <?php endif; ?>
           </div>
           <div class="row">
             <!-- Submit Button -->

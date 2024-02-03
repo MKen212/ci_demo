@@ -85,4 +85,57 @@ class Users extends BaseController{
     echo view("users/register");
     echo view("templates/login_footer");
   }
+
+  public function profile() {
+    $model = new UserModel();
+    helper(["form"]);
+    $curUserID = session()->get("id"); 
+    $data = [
+      "user" => $model->where("id", $curUserID)->first(),
+    ];    
+    
+    if($this->request->getMethod() == "post") {
+      // Form Validation Rules - only run on "post"
+      $rules = [
+        "firstName" => "required|min_length[3]|max_length[20]",
+        "lastName" => "required|min_length[3]|max_length[20]",
+      ];
+      // Only Validate password if password updated
+      if ($this->request->getPost("password") != "") {
+        $rules["password"]  = "required|min_length[6]|max_length[255]";
+        $rules["password_confirm"] = "matches[password]";
+      }
+
+      // Form Validation / Save
+      if (!$this->validate($rules)) {
+        $data["validation"] = $this->validator;
+      } else {
+
+        $updatedUser = [
+          "ID" => $curUserID,
+          "FirstName" => $this->request->getPost("firstName"),
+          "LastName" =>  $this->request->getPost("lastName"),
+        ];
+        // Only Update password if password updated
+        if ($this->request->getPost("password") != "") {
+          $updatedUser["Password"] = $this->request->getPost("password");
+        }
+
+        $model->save($updatedUser);
+        session()->setFlashdata("success", "Profile successfully updated.");
+        return redirect()->to("/profile");
+      }
+    }
+
+    echo view("templates/login_header");
+    echo view("users/profile", $data);
+    echo view("templates/login_footer");
+
+  }
+
+  public function logout() {
+    session()->destroy();
+    return redirect()->to("/login");
+  }
+
 }

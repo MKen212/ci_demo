@@ -32,9 +32,11 @@ $routes->setAutoRoute(false);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->get('helloworld', 'Helloworld::index');
-$routes->match(["get", "post"], "login", "Users::index");
-$routes->match(["get", "post"], "register", "Users::register");
-$routes->get('dashboard', 'Dashboard::index');
+$routes->match(["get", "post"], "login", "Users::index", ['filter' => 'loggedIn']);
+$routes->get('logout', 'Users::logout');
+$routes->match(["get", "post"], "register", "Users::register", ['filter' => 'loggedIn']);
+$routes->match(["get", "post"], "profile", "Users::profile", ['filter' => 'loggedOut']);
+$routes->get('dashboard', 'Dashboard::index', ['filter' => 'loggedOut']);
 $routes->match(["get", "post"], "news/create", "News::create");
 $routes->get("news/(:segment)", "News::view/$1");
 $routes->get("news", "News::index");

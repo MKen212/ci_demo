@@ -4,6 +4,7 @@ use CodeIgniter\Model;
 
 class UserModel extends Model {
   protected $table = "users";
+  protected $primaryKey = "ID";
   protected $allowedFields = ["FirstName", "LastName", "Email", "Password"];
   protected $beforeInsert = ["beforeInsert"];
   protected $beforeUpdate = ["beforeUpdate"];
@@ -24,12 +25,8 @@ class UserModel extends Model {
   protected function passwordHash(array $data) {
     if(isset($data["data"]["Password"])) {
       $data["data"]["Password"] = password_hash($data["data"]["Password"], PASSWORD_ARGON2ID);
-      return $data;
     }
+    return $data;
   }
-
-
-
 }
-
 ?>
